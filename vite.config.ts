@@ -1,12 +1,29 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
+import type { PreRenderedChunk } from 'rollup'
 
 const commonRollupOptions = {
   input: {
     popup: "popup.html",
     devtools: "devtools.html",
-    panel: "panel.html"
+    panel: "panel.html",
+    content: "src/content.ts",
+    background: "src/background.ts"
   }
+}
+
+const commonContentRollupOptions = {
+    entryFileNames: (chunkInfo: PreRenderedChunk) => {
+      if(chunkInfo.name === 'content') {
+        return 'content.js';
+      }
+
+      if(chunkInfo.name === 'background') {
+        return 'background.js';
+      }
+
+      return 'assets/[name]-[hash].js';
+    }
 }
 
 const getProductionConfig = () => {
@@ -26,6 +43,7 @@ const getProductionConfig = () => {
       rollupOptions: {
         ...commonRollupOptions,
         output: {
+          ...commonContentRollupOptions,
           manualChunks: {
             vendor: ['react', 'react-dom'],
           },
@@ -41,7 +59,10 @@ const getDevlopmentConfig = () => {
       sourcemap: true,
       minify: false,
       rollupOptions: {
-        ...commonRollupOptions
+        ...commonRollupOptions,
+        output: {
+          ...commonContentRollupOptions,
+        },
       }
     }
   }

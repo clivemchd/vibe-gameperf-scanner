@@ -1,7 +1,6 @@
 const Panel = () => {
-  
   return (
-    <>Panel</>
+    <>Devtools</>
   );
 };
 

@@ -16,5 +16,23 @@
     "48": "assets/logo/logo48.png",
     "128": "assets/logo/logo128.png"
   },
-  "devtools_page": "devtools.html"
+  "devtools_page": "devtools.html",
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [
+    "activeTab",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ]
 }
