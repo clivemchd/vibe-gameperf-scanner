@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "description": "A Chrome extension for scanning game performance",
   "action": {
-    "default_popup": "index.html",
+    "default_popup": "popup.html",
     "default_icon": {
       "16": "assets/logo/logo16.png",
       "48": "assets/logo/logo48.png",
@@ -15,5 +15,6 @@
     "16": "assets/logo/logo16.png",
     "48": "assets/logo/logo48.png",
     "128": "assets/logo/logo128.png"
-  }
+  },
+  "devtools_page": "devtools.html"
 }

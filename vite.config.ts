@@ -1,6 +1,14 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 
+const commonRollupOptions = {
+  input: {
+    popup: "popup.html",
+    devtools: "devtools.html",
+    panel: "panel.html"
+  }
+}
+
 const getProductionConfig = () => {
   return {
     build: {
@@ -16,6 +24,7 @@ const getProductionConfig = () => {
         },
       },
       rollupOptions: {
+        ...commonRollupOptions,
         output: {
           manualChunks: {
             vendor: ['react', 'react-dom'],
@@ -30,7 +39,10 @@ const getDevlopmentConfig = () => {
   return {
     build: {
       sourcemap: true,
-      minify: false
+      minify: false,
+      rollupOptions: {
+        ...commonRollupOptions
+      }
     }
   }
 }
