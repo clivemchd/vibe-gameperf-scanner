@@ -1,26 +1,46 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 
-// https://vite.dev/config/
-export default defineConfig({
-  plugins: [react()],
-  build: {
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-      output: {
-        comments: false,
-      },
-    },
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
+const getProductionConfig = () => {
+  return {
+    build: {
+      sourcemap: false,
+      minify: 'terser' as const,
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+        },
+        output: {
+          comments: false,
         },
       },
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['react', 'react-dom'],
+          },
+        },
+      }
     }
+  }
+}
+
+const getDevlopmentConfig = () => {
+  return {
+    build: {
+      sourcemap: true,
+      minify: false
+    }
+  }
+}
+
+// https://vite.dev/config/
+export default defineConfig(({ mode }) => {
+  const isDevelopment = mode === 'development';
+  
+  return {
+    plugins: [react()],
+    ...(isDevelopment ? getDevlopmentConfig() : getProductionConfig())
   }
 })
